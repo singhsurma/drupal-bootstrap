@@ -24,3 +24,20 @@ function bootstrap_preprocess_node(&$variables) {
   $node_wrapper = entity_metadata_wrapper('node', $variables['node']);
   $variables['node_wrapper'] = $node_wrapper->language($language_content->language);
 }
+
+function bootstrap_breadcrumb($variables) {
+  global $base_url;
+
+  $crumbs = '<ul class="breadcrumbs">';
+  $crumbs .= '<li><a href="'.$base_url.'">Home</a></li>';
+
+  if (count($variables['breadcrumb']) > 0) {
+    foreach($variables['breadcrumb'] as $value) {
+      $crumbs .= '<li>'.$value.'</li>';
+    }
+  }
+
+  $crumbs .= '<li class="breadcrumb-last">'.drupal_get_title().'</li>';
+  $crumbs .= '</ul>';
+  return $crumbs;
+}
