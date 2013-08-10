@@ -1,0 +1,59 @@
+#skip-link {
+  margin: 0;
+}
+
+// Le bootstrap twitter nique un peu l'inté de la toolbar drupal sur le front
+#admin-menu {
+  ul, li {
+    line-height: 1.2em !important;
+  }
+
+  .toolbar-shortcuts {
+    ul, li {
+      line-height: 24px !important;
+    }
+  }
+}
+
+.pane-title {
+  display: none;
+}
+
+.contextual-links {
+  a {
+    font-family: arial !important;
+    font-size: 14px !important;
+    font-weight: normal !important;
+  }
+}
+
+.pane-pane-messages {
+  .nav-pills {
+    border-right: 2px solid @greyDark;
+    margin-left: -155px;
+    margin-top: 15px;
+    position: absolute;
+    width: 140px;
+
+    li {
+      float: none;
+      margin-bottom: 5px;
+      width: 140px;
+
+      a {
+        .border-radius(5px 0 0 5px);
+        .opacity(60);
+        background-color: @greyDark;
+        color: white;
+        margin-right: 0;
+      }
+
+      &.active, &:hover {
+        a {
+          .opacity(100);
+          background-color: @greyDark;
+        }
+      }
+    }
+  }
+}

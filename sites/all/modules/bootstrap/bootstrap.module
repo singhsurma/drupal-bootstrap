@@ -1,0 +1,23 @@
+<?php
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function bootstrap_theme_registry_alter(&$theme_registry) {
+  $theme_registry['page-imagecrop']['function'] = 'MYMODULE_imagecrop_page';
+}
+
+/**
+ * Circumvent imagecrop's "main region detection" code, which fails in our case
+ * because it depends on the position of the "Main Content" block.
+ *
+ * @see imagecrop_page() in imagecrop.theme.inc
+ */
+function bootstrap_imagecrop_page($variables) {
+  $output = '';
+  if (isset($variables['messages'])) {
+    $output .= $variables['messages'];
+  }
+  $output .= imagecrop_render_main_content($variables['page']['content']);
+  return $output;
+}
+?>
