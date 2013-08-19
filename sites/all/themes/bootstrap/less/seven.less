@@ -910,11 +910,16 @@ u,ins {
 }
 
 .bef-select-as-links {
+  > .form-item {
+    padding: 0;
+  }
+
   .form-type-bef-link {
     .border-radius(8px);
+    .ie7-inline-block();
     background: #ddd;
-    float: left;
-    margin-right: 10px;
+    display: inline-block;
+    margin: 0 5px 5px 0;
     text-transform: uppercase;
 
     a{
@@ -984,7 +989,6 @@ u,ins {
 .views-exposed-widgets {
   .views-widget-filter-type {
     float: none;
-    height: 50px;
     padding: 0;
   }
 

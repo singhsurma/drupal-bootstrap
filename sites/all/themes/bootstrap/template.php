@@ -25,6 +25,15 @@ function bootstrap_preprocess_node(&$variables) {
   $variables['node_wrapper'] = $node_wrapper->language($language_content->language);
 }
 
+function bootstrap_preprocess_entity(&$variables) {
+  if($variables['entity_type'] == 'bean') {
+    // On créé le no_wrapper i18nisé et on le passe au template
+    global $language_content;
+    $bean_wrapper = entity_metadata_wrapper('bean', $variables['bean']);
+    $variables['bean_wrapper'] = $bean_wrapper->language($language_content->language);
+  }
+}
+
 function bootstrap_breadcrumb($variables) {
   global $base_url;
 
