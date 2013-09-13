@@ -20,4 +20,47 @@ function bootstrap_imagecrop_page($variables) {
   $output .= imagecrop_render_main_content($variables['page']['content']);
   return $output;
 }
+
+//function bootstrap_block_info(){
+//  $blocks['my-block'] = array(
+//    'info' => t('My block'),
+//    'cache' => 3, //Default
+//  );
+//
+//  return $blocks ;
+//}
+//
+//function bootstrap_block_view($delta = '') {
+//  switch($delta){
+//    case 'my-block':
+//      $block['subject'] = t('My block');
+//      $block['content'] = '';
+//      break ;
+//  }
+//
+//  return $block;
+//}
+
+
+//function bootstrap_form_alter(&$form, $form_state, $form_id) {
+//  if(isset($form_state['pane'])) {
+//    $field = isset($form["arguments"]["field_NAME_tid"]) ? $form["arguments"]["field_group_tid"] : null;
+//    if(in_array($form_state['pane']->subtype, array("viewname-variantname")) && !is_null($field)) {
+//      $field["#type"] = "select";
+//      $field["#options"] = bootstrap_taxonomy_select(2, 0, 1);
+//    }
+//  }
+//}
+//
+//function bootstrap_taxonomy_select($vid, $parent = 0, $depth = NULL)
+//{
+//  $terms = taxonomy_get_tree($vid, $parent, $depth);
+//
+//  foreach ($terms as $data) {
+//    $output[$data->tid] = $data->name;
+//  }
+//
+//  return $output;
+//}
+
 ?>
