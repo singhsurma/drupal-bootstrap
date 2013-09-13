@@ -3,7 +3,7 @@
  * Implements hook_theme_registry_alter().
  */
 function bootstrap_theme_registry_alter(&$theme_registry) {
-  $theme_registry['page-imagecrop']['function'] = 'MYMODULE_imagecrop_page';
+  $theme_registry['page-imagecrop']['function'] = 'bootstrap_imagecrop_page';
 }
 
 /**
