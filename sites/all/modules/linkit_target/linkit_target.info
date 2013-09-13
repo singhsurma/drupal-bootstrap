@@ -1,11 +1,11 @@
-name = linkit target
-description = Add a target option to the linkit WYSIWYG option
+name = Linkit Target
+description = Add a target option to the Linkit WYSIWYG option
 dependencies[] = linkit
 core = 7.x
 
-; Information added by drupal.org packaging script on 2012-11-13
-version = "7.x-1.0"
+; Information added by drupal.org packaging script on 2013-03-02
+version = "7.x-3.x-dev"
 core = "7.x"
 project = "linkit_target"
-datestamp = "1352815613"
+datestamp = "1362186591"
 
