@@ -38,7 +38,7 @@ function bootstrap_breadcrumb($variables) {
   global $base_url;
 
   $crumbs = '<ul class="breadcrumbs">';
-  $crumbs .= '<li><a href="'.$base_url.'">Home</a></li>';
+  $crumbs .= '<li><a href="'.$base_url.'">'.t('Home').'</a></li>';
 
   if (count($variables['breadcrumb']) > 0) {
     foreach($variables['breadcrumb'] as $value) {
