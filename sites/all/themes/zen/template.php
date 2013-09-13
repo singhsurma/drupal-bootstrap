@@ -8,7 +8,7 @@
  * The base Zen theme is designed to be easily extended by its sub-themes. You
  * shouldn't modify this or any of the CSS or PHP files in the root zen/ folder.
  * See the online documentation for more information:
- *   http://drupal.org/documentation/theme/zen
+ *   https://drupal.org/documentation/theme/zen
  */
 
 // Auto-rebuild the theme registry during theme development.
@@ -56,7 +56,7 @@ function zen_breadcrumb($variables) {
 
     // Return the breadcrumb with separators.
     if (!empty($breadcrumb)) {
-      $breadcrumb_separator = theme_get_setting('zen_breadcrumb_separator');
+      $breadcrumb_separator = filter_xss_admin(theme_get_setting('zen_breadcrumb_separator'));
       $trailing_separator = $title = '';
       if (theme_get_setting('zen_breadcrumb_title')) {
         $item = menu_get_item();
@@ -322,7 +322,7 @@ function zen_preprocess_node(&$variables, $hook) {
     $variables['classes_array'][] = 'node-by-viewer';
   }
 
-  $variables['title_attributes_array']['class'][] = 'node--title';
+  $variables['title_attributes_array']['class'][] = 'node__title';
   $variables['title_attributes_array']['class'][] = 'node-title';
 }
 
@@ -353,7 +353,7 @@ function zen_preprocess_comment(&$variables, $hook) {
   }
   $variables['classes_array'][] = $variables['zebra'];
 
-  $variables['title_attributes_array']['class'][] = 'comment--title';
+  $variables['title_attributes_array']['class'][] = 'comment__title';
   $variables['title_attributes_array']['class'][] = 'comment-title';
 }
 
@@ -380,7 +380,7 @@ function zen_preprocess_region(&$variables, $hook) {
   }
   // Add a SMACSS-style class for header region.
   elseif ($variables['region'] == 'header') {
-    array_unshift($variables['classes_array'], 'header--region');
+    array_unshift($variables['classes_array'], 'header__region');
   }
 }
 
@@ -408,7 +408,7 @@ function zen_preprocess_block(&$variables, $hook) {
   }
   $variables['classes_array'][] = $variables['block_zebra'];
 
-  $variables['title_attributes_array']['class'][] = 'block--title';
+  $variables['title_attributes_array']['class'][] = 'block__title';
   $variables['title_attributes_array']['class'][] = 'block-title';
 
   // Add Aria Roles via attributes.
@@ -482,7 +482,7 @@ function zen_preprocess_block(&$variables, $hook) {
  */
 function zen_process_block(&$variables, $hook) {
   // Drupal 7 should use a $title variable instead of $block->subject.
-  $variables['title'] = $variables['block']->subject;
+  $variables['title'] = isset($variables['block']->subject) ? $variables['block']->subject : '';
 }
 
 /**
@@ -522,7 +522,8 @@ function zen_form_node_form_alter(&$form, &$form_state, $form_id) {
     if (strpos($item, 'field_') === 0) {
       if (!empty($form[$item]['#attributes']['class'])) {
         foreach ($form[$item]['#attributes']['class'] as &$class) {
-          if (strpos($class, 'field-type-') === 0 || strpos($class, 'field-name-') === 0) {
+          // Core bug: the field-type-text-with-summary class is used as a JS hook.
+          if ($class != 'field-type-text-with-summary' && strpos($class, 'field-type-') === 0 || strpos($class, 'field-name-') === 0) {
             // Make the class different from that used in theme_field().
             $class = 'form-' . $class;
           }
@@ -544,7 +545,7 @@ function zen_menu_local_tasks(&$variables) {
   foreach (array('primary', 'secondary') as $type) {
     if (!empty($variables[$type])) {
       foreach (array_keys($variables[$type]) as $key) {
-        if (isset($variables[$type][$key]['#theme']) && $variables[$type][$key]['#theme'] == 'menu_local_task' || is_array($variables[$type][$key]['#theme']) && in_array('menu_local_task', $variables[$type][$key]['#theme'])) {
+        if (isset($variables[$type][$key]['#theme']) && ($variables[$type][$key]['#theme'] == 'menu_local_task' || is_array($variables[$type][$key]['#theme']) && in_array('menu_local_task', $variables[$type][$key]['#theme']))) {
           $variables[$type][$key]['#theme'] = array('menu_local_task__' . $type, 'menu_local_task');
         }
       }
@@ -583,9 +584,15 @@ function zen_menu_local_task($variables) {
     $type = in_array('menu_local_task__secondary', $variables['element']['#theme']) ? 'tabs-secondary' : 'tabs-primary';
   }
 
+  // Add SMACSS-style class names.
+  if ($type) {
+    $link['localized_options']['attributes']['class'][] = $type . '__tab-link';
+    $class = $type . '__tab';
+  }
+
   if (!empty($variables['element']['#active'])) {
     // Add text to indicate active tab for non-visual users.
-    $active = '<span class="element-invisible">' . t('(active tab)') . '</span>';
+    $active = ' <span class="element-invisible">' . t('(active tab)') . '</span>';
 
     // If the link does not contain HTML already, check_plain() it now.
     // After we set 'html'=TRUE the link will not be sanitized by l().
@@ -598,16 +605,9 @@ function zen_menu_local_task($variables) {
     if (!$type) {
       $class = 'active';
     }
-    // Add SMACSS-style class names.
     else {
-      $link['localized_options']['attributes']['class'][] = $type . '--tab-link-active';
-      $class = $type . '--tab-active active';
-    }
-  }
-  else {
-    if ($type) {
-      $link['localized_options']['attributes']['class'][] = $type . '--tab-link';
-      $class = $type . '--tab';
+      $link['localized_options']['attributes']['class'][] = 'is-active';
+      $class .= ' is-active';
     }
   }
 
@@ -626,25 +626,29 @@ function zen_preprocess_menu_link(&$variables, $hook) {
       case 'leaf':
       case 'active':
       // Menu block module classes.
-      case 'has-children':
       case 'active-trail':
-        array_unshift($variables['element']['#attributes']['class'], 'menu--' . $class);
+        array_unshift($variables['element']['#attributes']['class'], 'is-' . $class);
+        break;
+      case 'has-children':
+        array_unshift($variables['element']['#attributes']['class'], 'is-parent');
         break;
     }
   }
+  array_unshift($variables['element']['#attributes']['class'], 'menu__item');
   if (empty($variables['element']['#localized_options']['attributes']['class'])) {
-    $variables['element']['#localized_options']['attributes']['class'][] = 'menu--link';
+    $variables['element']['#localized_options']['attributes']['class'] = array();
   }
   else {
     foreach ($variables['element']['#localized_options']['attributes']['class'] as $key => $class) {
       switch ($class) {
         case 'active':
         case 'active-trail':
-          array_unshift($variables['element']['#localized_options']['attributes']['class'], 'menu--link-' . $class);
+          array_unshift($variables['element']['#localized_options']['attributes']['class'], 'is-' . $class);
           break;
       }
     }
   }
+  array_unshift($variables['element']['#localized_options']['attributes']['class'], 'menu__link');
 }
 
 /**
@@ -660,14 +664,14 @@ function zen_status_messages($variables) {
     'warning' => t('Warning message'),
   );
   foreach (drupal_get_messages($display) as $type => $messages) {
-    $output .= "<div class=\"messages-$type messages $type\">\n";
+    $output .= "<div class=\"messages--$type messages $type\">\n";
     if (!empty($status_heading[$type])) {
       $output .= '<h2 class="element-invisible">' . $status_heading[$type] . "</h2>\n";
     }
     if (count($messages) > 1) {
-      $output .= " <ul class=\"messages--list\">\n";
+      $output .= " <ul class=\"messages__list\">\n";
       foreach ($messages as $message) {
-        $output .= '  <li class=\"messages--item\">' . $message . "</li>\n";
+        $output .= '  <li class=\"messages__item\">' . $message . "</li>\n";
       }
       $output .= " </ul>\n";
     }

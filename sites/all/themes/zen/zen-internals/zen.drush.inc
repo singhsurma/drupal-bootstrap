@@ -61,8 +61,7 @@ function drush_zen($name = NULL, $machine_name = NULL) {
   if ($path = drush_get_option('path')) {
     $subtheme_path = drush_trim_path($path);
   }
-  $subtheme_path .= '/' . str_replace('_', '-', $machine_name);
-  $subtheme_path = drush_normalize_path(drush_get_context('DRUSH_DRUPAL_ROOT') . '/' . $subtheme_path);
+  $subtheme_path = drush_normalize_path(drush_get_context('DRUSH_DRUPAL_ROOT') . '/' . $subtheme_path . '/' . $machine_name);
 
   // Make a fresh copy of the original starter kit.
   $starter_path = drush_normalize_path(drush_get_context('DRUSH_DRUPAL_ROOT') . '/' . drupal_get_path('theme', 'zen') . '/STARTERKIT');
@@ -80,7 +79,7 @@ function drush_zen($name = NULL, $machine_name = NULL) {
     '= Zen Sub-theme Starter Kit' => '= ' . $name,
   );
   if ($description = drush_get_option('description')) {
-    $alterations['Read the <a href="http://drupal.org/node/873778">online docs</a> or the included README.txt on how to create a theme with Zen.'] = $description;
+    $alterations['Read the <a href="https://drupal.org/node/873778">online docs</a> or the included README.txt on how to create a theme with Zen.'] = $description;
   }
   drush_op('zen_file_str_replace', $subtheme_info_file, array_keys($alterations), $alterations);
 
@@ -91,8 +90,17 @@ function drush_zen($name = NULL, $machine_name = NULL) {
   // Remove all RTL stylesheets.
   if ($without_rtl = drush_get_option('without-rtl')) {
     foreach (array('layouts/_fixed', 'layouts/_responsive', 'components/_misc', '_normalize', 'styles') as $file) {
-      // Remove the RTL stylesheet.
-      $css_file = ($file[0] == '_') ? substr($file, 1) : $file;
+      // Move any sub-directory into a separate variable.
+      list($sub_dir, $css_file) = explode('/', $file . '/');
+      if (!$css_file) {
+        $css_file = $sub_dir;
+        $sub_dir = '';
+      }
+      else {
+        $sub_dir .= '/';
+      }
+      // Remove the RTL css file.
+      $css_file = $sub_dir . (($css_file[0] == '_') ? substr($css_file, 1) : $css_file);
       drush_op('unlink', drush_normalize_path($subtheme_path . '/css/' . $css_file . '-rtl.css'));
       drush_op('zen_file_str_replace', $subtheme_path . '/css/' . $css_file . '.css', ' /* LTR */', '');
       // Remove the RTL sass file.

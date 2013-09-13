@@ -4,7 +4,7 @@
  * Returns the HTML for a single Drupal page.
  *
  * Complete documentation for this file is available online.
- * @see http://drupal.org/node/1728148
+ * @see https://drupal.org/node/1728148
  */
 ?>
 
@@ -13,25 +13,25 @@
   <header class="header" id="header" role="banner">
 
     <?php if ($logo): ?>
-      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="header--logo" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="header--logo-image" /></a>
+      <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="header__logo" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="header__logo-image" /></a>
     <?php endif; ?>
 
     <?php if ($site_name || $site_slogan): ?>
-      <div class="header--name-and-slogan" id="name-and-slogan">
+      <div class="header__name-and-slogan" id="name-and-slogan">
         <?php if ($site_name): ?>
-          <h1 class="header--site-name" id="site-name">
-            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="header--site-link" rel="home"><span><?php print $site_name; ?></span></a>
+          <h1 class="header__site-name" id="site-name">
+            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
           </h1>
         <?php endif; ?>
 
         <?php if ($site_slogan): ?>
-          <div class="header--site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
+          <div class="header__site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
         <?php endif; ?>
       </div>
     <?php endif; ?>
 
     <?php if ($secondary_menu): ?>
-      <nav class="header--secondary-menu" id="secondary-menu" role="navigation">
+      <nav class="header__secondary-menu" id="secondary-menu" role="navigation">
         <?php print theme('links__system_secondary_menu', array(
           'links' => $secondary_menu,
           'attributes' => array(
@@ -58,7 +58,7 @@
       <a id="main-content"></a>
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
-        <h1 class="page--title title" id="page-title"><?php print $title; ?></h1>
+        <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
       <?php endif; ?>
       <?php print render($title_suffix); ?>
       <?php print $messages; ?>
@@ -74,12 +74,12 @@
     <div id="navigation">
 
       <?php if ($main_menu): ?>
-        <nav id="main-menu" role="navigation">
+        <nav id="main-menu" role="navigation" tabindex="-1">
           <?php
           // This code snippet is hard to modify. We recommend turning off the
           // "Main menu" on your sub-theme's settings form, deleting this PHP
           // code block, and, instead, using the "Menu block" module.
-          // @see http://drupal.org/project/menu_block
+          // @see https://drupal.org/project/menu_block
           print theme('links__system_main_menu', array(
             'links' => $main_menu,
             'attributes' => array(

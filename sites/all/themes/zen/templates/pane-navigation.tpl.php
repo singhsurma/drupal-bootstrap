@@ -1,19 +1,14 @@
 <?php
 /**
  * @file
- * Overridden template for Panels Everywhere's navigation pane.
+ * Returns the HTML for Panels Everywhere's navigation pane.
  *
- * This utilizes the following variables that are normally found in
- * page.tpl.php:
- * - $main_menu
- * - $secondary_menu
- * - $breadcrumb
- *
- * Additional items can be added via theme_preprocess_pane_messages().
+ * Complete documentation for this file is available online.
+ * @see https://drupal.org/node/2052513
  */
 ?>
 <?php if (!empty($main_menu)): ?>
-  <nav id="main-menu" role="navigation">
+  <nav id="main-menu" role="navigation" tabindex="-1">
     <?php print $main_menu; ?>
   </nav>
 <?php endif; ?>

@@ -1,13 +1,11 @@
 name        = Zen
-description = Zen sub-themes are the ultimate starting themes for Drupal 7. Read the <a href="http://drupal.org/node/873778">online docs</a> or the included README-FIRST.txt on how to create a theme with Zen.
+description = Zen sub-themes are the ultimate starting themes for Drupal 7. Read the <a href="https://drupal.org/node/873778">online docs</a> or the included README-FIRST.txt on how to create a theme with Zen.
 screenshot  = zen-internals/screenshot.png
 
 core        = 7.x
 engine      = phptemplate
 
 stylesheets[all][] = system.menus.css
-stylesheets[all][] = system.messages.css
-stylesheets[all][] = system.theme.css
 
 regions[header]         = Header
 regions[navigation]     = Navigation bar
@@ -37,9 +35,9 @@ settings[zen_wireframes]           = 0
 
 plugins[panels][layouts] = panels-layouts
 
-; Information added by drupal.org packaging script on 2013-07-13
-version = "7.x-5.1+136-dev"
+; Information added by drupal.org packaging script on 2013-08-21
+version = "7.x-5.4"
 core = "7.x"
 project = "zen"
-datestamp = "1373735308"
+datestamp = "1377107504"
 
