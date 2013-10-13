@@ -8,6 +8,8 @@ base theme  = zen
 ; Then we add our own stylesheet.
 stylesheets[all][] = css/style.css
 
+scripts[] = js/bootstrap/bootstrap-transition.js
+scripts[] = js/bootstrap/bootstrap-modal.js
 scripts[] = js/script.js
 
 regions[content]     = Content

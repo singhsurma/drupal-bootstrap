@@ -1,4 +1,4 @@
-<?php $bodies = $bean_wrapper->field_body->value() ?>
+<?php $bodies = $bean_wrapper->field_bodies->value() ?>
 <?php $row_width = 12 / count($bodies) ?>
 
 <div class="row">

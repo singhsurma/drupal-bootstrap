@@ -26,3 +26,37 @@
 #admin-menu {
   .box-shadow(0 0 9px 4px rgba(0,0,0,0.4));
 }
+
+.modal {
+  .modal-header {
+      .close {
+        text-indent: 0;
+      }
+  }
+
+  .modal-body {
+    &.with-form {
+      padding: 0;
+
+      form {
+        margin: 0;
+      }
+
+      p {
+        margin: 5px 15px;
+      }
+
+      .form-item {
+        margin: 8px 15px;
+      }
+
+      .item-list {
+        margin-left: 10px;
+      }
+
+      .form-actions {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
