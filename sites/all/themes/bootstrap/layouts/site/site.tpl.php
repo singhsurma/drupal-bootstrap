@@ -13,7 +13,6 @@
         <?php print $content['footer']; ?>
     </div>
 </div>
-<div class="red-bar"></div>
 <div class="region-modal">
     <?php print $content['modal']; ?>
 </div>
