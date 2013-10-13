@@ -13,24 +13,17 @@ function bootstrap_menu_local_tasks(&$vars) {
 }
 
 function bootstrap_preprocess_node(&$variables) {
-  // On ajoute 2 view modes en début de tableau
   if(!empty($variables['view_mode'])) {
     array_unshift($variables['theme_hook_suggestions'], 'node__' . $variables['type'] . '__' . $variables['view_mode']);
     array_unshift($variables['theme_hook_suggestions'], 'node__' . $variables['view_mode']);
   }
 
-  // On créé le no_wrapper i18nisé et on le passe au template
-  global $language_content;
-  $node_wrapper = entity_metadata_wrapper('node', $variables['node']);
-  $variables['node_wrapper'] = $node_wrapper->language($language_content->language);
+  $variables['node_wrapper'] = get_node_wrapper($variables['node']);
 }
 
 function bootstrap_preprocess_entity(&$variables) {
   if($variables['entity_type'] == 'bean') {
-    // On créé le no_wrapper i18nisé et on le passe au template
-    global $language_content;
-    $bean_wrapper = entity_metadata_wrapper('bean', $variables['bean']);
-    $variables['bean_wrapper'] = $bean_wrapper->language($language_content->language);
+    $variables['bean_wrapper'] = get_bean_wrapper($variables['bean']);
   }
 }
 
@@ -49,4 +42,20 @@ function bootstrap_breadcrumb($variables) {
   $crumbs .= '<li class="breadcrumb-last">'.drupal_get_title().'</li>';
   $crumbs .= '</ul>';
   return $crumbs;
+}
+
+/*** UTILITIES ***/
+
+function get_node_wrapper($node) {
+  global $language_content;
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  return $node_wrapper->language($language_content->language);
+}
+
+function get_bean_wrapper($bean) {
+  global $language_content;
+  $bean_wrapper = entity_metadata_wrapper('bean', $bean);
+
+  return $bean_wrapper->language($language_content->language);
 }
