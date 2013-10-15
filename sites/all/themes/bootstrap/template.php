@@ -27,22 +27,38 @@ function bootstrap_preprocess_entity(&$variables) {
   }
 }
 
-function bootstrap_breadcrumb($variables) {
-  global $base_url;
+ function bootstrap_breadcrumb($variables) {
+   global $base_url;
 
-  $crumbs = '<ul class="breadcrumbs">';
-  $crumbs .= '<li><a href="'.$base_url.'">'.t('Home').'</a></li>';
+   if (arg(0) == 'node' && is_numeric(arg(1))) {
+     $node_wrapper = get_node_wrapper(arg(1));;
+   }
+   else {
+     return "";
+   }
 
-  if (count($variables['breadcrumb']) > 0) {
-    foreach($variables['breadcrumb'] as $value) {
-      $crumbs .= '<li>'.$value.'</li>';
-    }
-  }
+   $title = drupal_get_title();
 
-  $crumbs .= '<li class="breadcrumb-last">'.drupal_get_title().'</li>';
-  $crumbs .= '</ul>';
-  return $crumbs;
-}
+   $breadcrumbs = array();
+   switch($node_wrapper->type->value()) {
+       /**  Example **/
+//     case "news":
+//       $breadcrumbs[url('node/39')] = "News";
+//       break;
+   }
+
+   $crumbs = '<div class="container"><ul class="breadcrumbs">';
+   $crumbs .= '<li><a href="'.$base_url.'">'.t('Home').'</a> > </li>';
+
+   foreach($breadcrumbs as $url => $value) {
+     $crumbs .= '<li><a href="'.$url.'">'.$value.'</a> > </li>';
+   }
+
+   $crumbs .= '<li class="breadcrumb-last">'.$title.'</li>';
+
+   $crumbs .= '</ul></div>';
+   return $crumbs;
+ }
 
 /*** UTILITIES ***/
 
