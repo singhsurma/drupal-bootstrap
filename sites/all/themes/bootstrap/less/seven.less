@@ -1009,14 +1009,26 @@ u,ins {
   }
 }
 
+#media-browser-page-wrapper {
+  .views-exposed-widgets {
+    .views-widget-filter-type {
+      float: left;
+      padding: .5em 1em 0 0;
+    }
+  }
+}
+
 .ui-dialog {
-  @width: 915px;
-  top: 50px !important;
-  width: @width !important;
+  @space: 25px;
+  top: @space !important;
+  bottom: @space !important;
+  left: @space !important;
+  right: @space !important;
+  width: auto !important;
 
   .media-modal-frame {
-    max-height: 575px !important;
-    width: @width !important;
+    height: 100% !important;
+    width: 100% !important;
   }
 }
 
